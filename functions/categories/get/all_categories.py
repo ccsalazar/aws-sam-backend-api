@@ -1,10 +1,20 @@
+import boto3
+import json
+
+dynamodb = boto3.resource('dynamodb')
+table = dynamodb.Table("Categories")
+
+
 def handler(event, context):
-    print("Event", event)
-    print("Context", context)
+
+    dynamodb_results = table.scan(ProjectionExpression="category")
+
+    categories = json.dumps(dynamodb_results["Items"])
+
     return {
-        'body': 'Get All Categories Executed',
+        'body': categories,
         'headers': {
-            'Content-Type': 'text/plain'
+            'Content-Type': 'application/json'
         },
         'statusCode': 200
     }
