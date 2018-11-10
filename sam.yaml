@@ -1,0 +1,152 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+
+Description: Serverless Backend
+
+Parameters:
+  S3BucketName:
+    Description: The name of the S3 buckets that stores the lambda functions
+    Type: String
+  
+  ApiName:
+    Description: The name of the AWS Rest Api
+    Type: String
+
+Globals:
+  Function:
+    Runtime: python3.6
+    Timeout: 180
+  Api:
+    Name: !Ref ApiName
+
+Resources:
+################ CATEGORY FUNCTIONS ###########################################
+  
+  GETAllCategories:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: Gets All Categories
+      Handler: functions/categories/get/all_categories.handler
+      CodeUri:
+        Bucket: !Ref S3BucketName
+        Key: functions.zip
+      Policies: CloudWatchLogsFullAccess
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /categories
+            Method: GET
+
+################ SUBMISSION FUNCTIONS ###########################################
+  
+  # GETAllCategorySubmissions:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     Description: Gets all categories
+  #     Handler: functions/submissions/get/all_category_submissions.handler
+  #     CodeUri:
+          # Bucket: !Ref S3BucketName
+          # Key: functions.zip
+  # GETAllSubmissions:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     Description: Gets all submissions
+  #     Handler: functions/submissions/get/all_submissions.handler
+  #     CodeUri:
+          # Bucket: !Ref S3BucketName
+          # Key: functions.zip
+  # POSTSubmission:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     Description: Create a new submission
+  #     Handler: functions/submissions/post/submission.handler
+  #     CodeUri:
+          # Bucket: !Ref S3BucketName
+          # Key: functions.zip
+  # GETSubmission:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     Description: Get a submission
+  #     Handler: functions/submissions/get/submission.handler
+  #     CodeUri:
+          # Bucket: !Ref S3BucketName
+          # Key: functions.zip
+  # POSTSubmissionVote:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     Description: Vote on a submission
+  #     Handler: functions/submissions/post/submission_vote.handler
+  #     CodeUri:
+          # Bucket: !Ref S3BucketName
+          # Key: functions.zip
+  # PUTSubmission:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     Description: Edit a submission
+  #     Handler: functions/submissions/put/submission.handler
+  #     CodeUri:
+          # Bucket: !Ref S3BucketName
+          # Key: functions.zip
+  # DELETESubmission:
+    # Type: AWS::Serverless::Function
+    # Properties:
+    #   Description: Delete a submission
+    #   Handler: functions/submissions/delete/submission.handler
+    #   CodeUri:
+          # Bucket: !Ref S3BucketName
+          # Key: functions.zip
+
+############### COMMENT FUNCTIONS ###########################################
+  
+  # GETAllSubmissionComments:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     Description: Gets all comments for a submission
+  #     Handler: functions/comments/get/all_submission_comments.handler
+  #     CodeUri:
+          # Bucket: !Ref S3BucketName
+          # Key: functions.zip
+  # POSTSubmissionComment:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     Description: Create a comment for a submission
+  #     Handler: functions/comments/post/submission_comment.handler
+  #     CodeUri:
+          # Bucket: !Ref S3BucketName
+          # Key: functions.zip
+  # POSTSubmissionCommentVote:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     Description: Vote on a comment
+  #     Handler: functions/comments/post/submission_comment_vote.handler
+  #     CodeUri:
+          # Bucket: !Ref S3BucketName
+          # Key: functions.zip
+  # PUTSubmissionComment:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     Description: Edit a comment
+  #     Handler: functions/comments/put/submission_comment.handler
+  #     CodeUri:
+          # Bucket: !Ref S3BucketName
+          # Key: functions.zip
+  # DELETESubmissionComment:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     Description: Delete a comment
+  #     Handler: functions/comments/delete/submission_comment.handler
+  #     CodeUri:
+          # Bucket: !Ref S3BucketName
+          # Key: functions.zip
+  # GETSubmissionComment:
+    # Type: AWS::Serverless::Function
+    # Properties:
+    #   Description: Get a comment
+    #   Handler: functions/comments/get/submission_comment.handler
+    #   CodeUri:
+          # Bucket: !Ref S3BucketName
+          # Key: functions.zip
+
+  
+                  
