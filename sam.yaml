@@ -30,7 +30,9 @@ Resources:
       CodeUri:
         Bucket: !Ref S3BucketName
         Key: functions.zip
-      Policies: CloudWatchLogsFullAccess
+      Policies: 
+        - CloudWatchLogsFullAccess
+        - AmazonDynamoDBFullAccess
       Events:
         Api:
           Type: Api
@@ -56,14 +58,23 @@ Resources:
   #     CodeUri:
           # Bucket: !Ref S3BucketName
           # Key: functions.zip
-  # POSTSubmission:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     Description: Create a new submission
-  #     Handler: functions/submissions/post/submission.handler
-  #     CodeUri:
-          # Bucket: !Ref S3BucketName
-          # Key: functions.zip
+  POSTSubmission:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: Create a new submission
+      Handler: functions/submissions/post/submission.handler
+      CodeUri:
+          Bucket: !Ref S3BucketName
+          Key: functions.zip
+      Policies: 
+        - CloudWatchLogsFullAccess
+        - AmazonDynamoDBFullAccess
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /submissions
+            Method: POST
   # GETSubmission:
   #   Type: AWS::Serverless::Function
   #   Properties:
