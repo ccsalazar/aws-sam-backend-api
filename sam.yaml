@@ -118,14 +118,23 @@ Resources:
   #     CodeUri:
           # Bucket: !Ref S3BucketName
           # Key: functions.zip
-  # POSTSubmissionComment:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     Description: Create a comment for a submission
-  #     Handler: functions/comments/post/submission_comment.handler
-  #     CodeUri:
-          # Bucket: !Ref S3BucketName
-          # Key: functions.zip
+  POSTSubmissionComment:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: Create a comment for a submission
+      Handler: functions/comments/post/submission_comment.handler
+      CodeUri:
+          Bucket: !Ref S3BucketName
+          Key: functions.zip
+      Policies: 
+        - CloudWatchLogsFullAccess
+        - AmazonDynamoDBFullAccess
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /comments
+            Method: POST
   # POSTSubmissionCommentVote:
   #   Type: AWS::Serverless::Function
   #   Properties:
