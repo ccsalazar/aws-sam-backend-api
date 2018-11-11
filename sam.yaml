@@ -15,7 +15,7 @@ Parameters:
 Globals:
   Function:
     Runtime: python3.6
-    Timeout: 180
+    Timeout: 190
   Api:
     Name: !Ref ApiName
 
@@ -26,7 +26,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Description: Gets All Categories
-      Handler: functions/categories/get/all_categories.handler
+      Handler: functions/categories/get_all_categories.handler
       CodeUri:
         Bucket: !Ref S3BucketName
         Key: functions.zip
@@ -40,21 +40,31 @@ Resources:
             Path: /categories
             Method: GET
 
+  GETAllSubmissionsByCategory:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: Gets all submissions for a given category
+      Handler: functions/categories/submissions/get_all_submissions_by_category.handler
+      CodeUri:
+          Bucket: !Ref S3BucketName
+          Key: functions.zip
+      Policies: 
+        - CloudWatchLogsFullAccess
+        - AmazonDynamoDBFullAccess
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /{category}/submissions
+            Method: GET
+          
 ################ SUBMISSION FUNCTIONS ###########################################
   
-  # GETAllCategorySubmissions:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     Description: Gets all categories
-  #     Handler: functions/submissions/get/all_category_submissions.handler
-  #     CodeUri:
-          # Bucket: !Ref S3BucketName
-          # Key: functions.zip
   # GETAllSubmissions:
   #   Type: AWS::Serverless::Function
   #   Properties:
   #     Description: Gets all submissions
-  #     Handler: functions/submissions/get/all_submissions.handler
+  #     Handler: functions/submissions/get_all_submissions.handler
   #     CodeUri:
           # Bucket: !Ref S3BucketName
           # Key: functions.zip
@@ -62,7 +72,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Description: Create a new submission
-      Handler: functions/submissions/post/submission.handler
+      Handler: functions/submissions/post_submission.handler
       CodeUri:
           Bucket: !Ref S3BucketName
           Key: functions.zip
@@ -75,14 +85,23 @@ Resources:
           Properties:
             Path: /submissions
             Method: POST
-  # GETSubmission:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     Description: Get a submission
-  #     Handler: functions/submissions/get/submission.handler
-  #     CodeUri:
-          # Bucket: !Ref S3BucketName
-          # Key: functions.zip
+  GETSubmissionByID:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: Get the details of a single submission
+      Handler: functions/submissions/id/get_submission_by_id.handler
+      CodeUri:
+          Bucket: !Ref S3BucketName
+          Key: functions.zip
+      Policies: 
+        - CloudWatchLogsFullAccess
+        - AmazonDynamoDBFullAccess
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /submissions/{id}
+            Method: GET
   # POSTSubmissionVote:
   #   Type: AWS::Serverless::Function
   #   Properties:
@@ -118,11 +137,11 @@ Resources:
   #     CodeUri:
           # Bucket: !Ref S3BucketName
           # Key: functions.zip
-  POSTSubmissionComment:
+  POSTComment:
     Type: AWS::Serverless::Function
     Properties:
       Description: Create a comment for a submission
-      Handler: functions/comments/post/submission_comment.handler
+      Handler: functions/comments/post_comment.handler
       CodeUri:
           Bucket: !Ref S3BucketName
           Key: functions.zip
