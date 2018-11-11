@@ -60,14 +60,23 @@ Resources:
           
 ################ SUBMISSION FUNCTIONS ###########################################
   
-  # GETAllSubmissions:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     Description: Gets all submissions
-  #     Handler: functions/submissions/get_all_submissions.handler
-  #     CodeUri:
-          # Bucket: !Ref S3BucketName
-          # Key: functions.zip
+  GETAllSubmissions:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: Gets all submissions
+      Handler: functions/submissions/get_all_submissions.handler
+      CodeUri:
+          Bucket: !Ref S3BucketName
+          Key: functions.zip
+      Policies: 
+        - CloudWatchLogsFullAccess
+        - AmazonDynamoDBFullAccess
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /submissions
+            Method: GET
   POSTSubmission:
     Type: AWS::Serverless::Function
     Properties:
