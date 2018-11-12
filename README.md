@@ -8,6 +8,7 @@ Deploying serverless applications require a cloudformation template which can be
 ` git clone git@github.com:ccsalazar/aws-sam-backend-api.git `
 
 
+
 ## CloudFormation w/ SAM Template Anatomy
 
 To read more about the CloudFormation Template Anatomy read the docs [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) and the SAM properties [here](https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md). SAM properties are allowed in CloudFormation Templates with the use of the **Transform: 'AWS::Serverless-2016-10-31'** property.
@@ -68,7 +69,7 @@ Your Lambda functions are compressed to a zipped folder and copied to an s3 buck
     --output-template-file sam-packaged.yaml
     ```
 
-* Deploy to cloudformation to a stack. If the stack doesn't exist then it will be created, otherwise the existing stack will be updated
+* Deploy to a cloudformation stack. If the stack doesn't exist then it will be created, otherwise the existing stack will be updated
 
     ```
     aws cloudformation deploy \
@@ -76,3 +77,7 @@ Your Lambda functions are compressed to a zipped folder and copied to an s3 buck
     --stack-name <stack-name> \
     --capabilities CAPABILITY_IAM
     ```
+
+## Sidenotes or issues to improve on
+
+* Marshalling DyanamoDb data without types e.g. { "data": {"S" : "test data" } } instead you want { "data": "test data" }. Explain the difference between boto3 Client and Table
