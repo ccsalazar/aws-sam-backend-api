@@ -1,5 +1,15 @@
 
+# ide
+.vscode
 
+# deployment files
 functions.zip
 sam-packaged.yaml
 scripts
+
+# virtualenv files
+bin
+include
+lib
+pip-selfcheck.json
+.Python
