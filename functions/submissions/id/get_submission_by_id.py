@@ -17,7 +17,7 @@ def handler(event, context):
 
     submission_id = event["pathParameters"]["id"]
 
-    dynamodb_results = table.query(Key={"id": submission_id})
+    dynamodb_results = table.get_item(Key={"id": submission_id})
 
     submission = json.dumps(dynamodb_results["Item"], default=default)
 
