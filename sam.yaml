@@ -15,7 +15,7 @@ Parameters:
 Globals:
   Function:
     Runtime: python3.6
-    Timeout: 190
+    Timeout: 180
   Api:
     Name: !Ref ApiName
 
@@ -94,6 +94,7 @@ Resources:
           Properties:
             Path: /submissions
             Method: POST
+  
   GETSubmissionByID:
     Type: AWS::Serverless::Function
     Properties:
@@ -111,14 +112,23 @@ Resources:
           Properties:
             Path: /submissions/{id}
             Method: GET
-  # POSTSubmissionVote:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     Description: Vote on a submission
-  #     Handler: functions/submissions/post/submission_vote.handler
-  #     CodeUri:
-          # Bucket: !Ref S3BucketName
-          # Key: functions.zip
+  POSTVoteBySubmissionID:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: Vote on a submission
+      Handler: functions/submissions/id/post_vote_by_submission_id.handler
+      CodeUri:
+          Bucket: !Ref S3BucketName
+          Key: functions.zip
+      Policies: 
+        - CloudWatchLogsFullAccess
+        - AmazonDynamoDBFullAccess
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /submissions/{id}
+            Method: POST
   # PUTSubmission:
   #   Type: AWS::Serverless::Function
   #   Properties:
