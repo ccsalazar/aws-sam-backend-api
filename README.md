@@ -80,4 +80,7 @@ Your Lambda functions are compressed to a zipped folder and copied to an s3 buck
 
 ## Sidenotes or issues to improve on
 
-* Marshalling DyanamoDb data without types e.g. { "data": {"S" : "test data" } } instead you want { "data": "test data" }. Explain the difference between boto3 Client and Table
+* marshalling dyanamoDb data without types e.g. { "data": {"S" : "test data" } } instead you want { "data": "test data" }. Explain the difference between boto3 client and table
+* serialize Decimal data in dynamodb number fields
+* create models of data
+* http error responses
