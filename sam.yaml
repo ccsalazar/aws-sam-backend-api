@@ -191,14 +191,23 @@ Resources:
           Properties:
             Path: /comments
             Method: POST
-  # POSTSubmissionCommentVote:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     Description: Vote on a comment
-  #     Handler: functions/comments/post/submission_comment_vote.handler
-  #     CodeUri:
-          # Bucket: !Ref S3BucketName
-          # Key: functions.zip
+  POSTVoteByCommentID:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: Vote on a comment
+      Handler: functions/comments/id/post_vote_by_comment_id.handler
+      CodeUri:
+          Bucket: !Ref S3BucketName
+          Key: functions.zip
+      Policies: 
+        - CloudWatchLogsFullAccess
+        - AmazonDynamoDBFullAccess
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /comments/{id}
+            Method: POST
   # PUTSubmissionComment:
   #   Type: AWS::Serverless::Function
   #   Properties:
