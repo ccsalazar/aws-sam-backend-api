@@ -157,14 +157,23 @@ Resources:
 
 ############### COMMENT FUNCTIONS ###########################################
   
-  # GETAllSubmissionComments:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     Description: Gets all comments for a submission
-  #     Handler: functions/comments/get/all_submission_comments.handler
-  #     CodeUri:
-          # Bucket: !Ref S3BucketName
-          # Key: functions.zip
+  GETAllCommentsBySubmissionID:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: Gets all comments for a submission
+      Handler: functions/submissions/id/get_all_comments_by_submission_id.handler
+      CodeUri:
+          Bucket: !Ref S3BucketName
+          Key: functions.zip
+      Policies: 
+      - CloudWatchLogsFullAccess
+      - AmazonDynamoDBFullAccess
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /submissions/{id}/comments
+            Method: GET
   POSTComment:
     Type: AWS::Serverless::Function
     Properties:
